@@ -34,6 +34,7 @@ DEVICE_STRING_PROPERTY_BUFFER_SIZE = 512
 HID_DEVICE_PROPERTY_VENDOR_ID = b'VendorID'
 HID_DEVICE_PROPERTY_PRODUCT_ID = b'ProductID'
 HID_DEVICE_PROPERTY_PRODUCT = b'Product'
+HID_DEVICE_PROPERTY_SERIAL_NUMBER = b'SerialNumber'
 HID_DEVICE_PROPERTY_PRIMARY_USAGE = b'PrimaryUsage'
 HID_DEVICE_PROPERTY_PRIMARY_USAGE_PAGE = b'PrimaryUsagePage'
 HID_DEVICE_PROPERTY_MAX_INPUT_REPORT_SIZE = b'MaxInputReportSize'
@@ -354,6 +355,8 @@ class MacOsHidDevice(base.HidDevice):
       d.product_id = GetDeviceIntProperty(dev, HID_DEVICE_PROPERTY_PRODUCT_ID)
       d.product_string = GetDeviceStringProperty(dev,
                                                  HID_DEVICE_PROPERTY_PRODUCT)
+      d.serial_number = GetDeviceStringProperty(dev,
+                                                 HID_DEVICE_PROPERTY_SERIAL_NUMBER)
       d.usage = GetDeviceIntProperty(dev, HID_DEVICE_PROPERTY_PRIMARY_USAGE)
       d.usage_page = GetDeviceIntProperty(
           dev, HID_DEVICE_PROPERTY_PRIMARY_USAGE_PAGE)
