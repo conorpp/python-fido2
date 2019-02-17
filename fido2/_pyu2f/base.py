@@ -88,6 +88,7 @@ class DeviceDescriptor(object):
   vendor_id = None
   product_id = None
   product_string = None
+  serial_number = None
   path = None
 
   internal_max_in_report_len = 0

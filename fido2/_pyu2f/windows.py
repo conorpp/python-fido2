@@ -111,6 +111,8 @@ hid.HidD_FreePreparsedData.restype = wintypes.BOOLEAN
 hid.HidD_FreePreparsedData.argtypes = [PHIDP_PREPARSED_DATA]
 hid.HidD_GetProductString.restype = wintypes.BOOLEAN
 hid.HidD_GetProductString.argtypes = [HANDLE, ctypes.c_void_p, ctypes.c_ulong]
+hid.HidD_GetSerialNumberString.restype = wintypes.BOOLEAN
+hid.HidD_GetSerialNumberString.argtypes = [HANDLE, ctypes.c_void_p, ctypes.c_ulong]
 hid.HidP_GetCaps.restype = NTSTATUS
 hid.HidP_GetCaps.argtypes = [PHIDP_PREPARSED_DATA,
                              ctypes.POINTER(HidCapabilities)]
@@ -167,15 +169,22 @@ def FillDeviceAttributes(device, descriptor):
   if not result:
     raise ctypes.WinError()
 
-  buf = ctypes.create_string_buffer(1024)
-  result = hid.HidD_GetProductString(device, buf, 1024)
+  buf_prod = ctypes.create_string_buffer(1024)
+  result = hid.HidD_GetProductString(device, buf_prod, 1024)
+
+  if not result:
+    raise ctypes.WinError()
+
+  buf_ser = ctypes.create_string_buffer(1024)
+  result = hid.HidD_GetSerialNumberString(device, buf_ser, 1024)
 
   if not result:
     raise ctypes.WinError()
 
   descriptor.vendor_id = attributes.VendorID
   descriptor.product_id = attributes.ProductID
-  descriptor.product_string = ctypes.wstring_at(buf)
+  descriptor.product_string = ctypes.wstring_at(buf_prod)
+  descriptor.serial_number = ctypes.wstring_at(buf_ser)
 
 
 def FillDeviceCapabilities(device, descriptor):
