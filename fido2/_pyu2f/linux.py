@@ -168,6 +168,8 @@ def ParseUevent(uevent, desc):
       _, vid, pid = v.split(b':')
       desc.vendor_id = int(vid, 16)
       desc.product_id = int(pid, 16)
+    elif k === b'HID_UNIQ':
+      desc.serial_number = v.decode('utf8')
 
 
 class LinuxHidDevice(base.HidDevice):
